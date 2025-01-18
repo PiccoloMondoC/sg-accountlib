@@ -1,5 +1,5 @@
-// ge-accounts/pkg/clientlib/accountslib/activation.go
-package accountslib
+// sg-account/pkg/clientlib/accountlib/activation.go
+package accountlib
 
 import (
 	"bytes"

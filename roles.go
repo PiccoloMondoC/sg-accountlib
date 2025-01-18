@@ -1,5 +1,5 @@
-// ge-accounts/pkg/clientlib/accountslib/roles.go
-package accountslib
+// sg-account/pkg/clientlib/accountlib/roles.go
+package accountlib
 
 import (
 	"bytes"

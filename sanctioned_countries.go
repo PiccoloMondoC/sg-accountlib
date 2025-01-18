@@ -1,5 +1,5 @@
-// ge-accounts/pkg/clientlib/accountslib/sanctioned_countries.go
-package accountslib
+// sg-account/pkg/clientlib/accountlib/sanctioned_countries.go
+package accountlib
 
 import (
 	"bytes"

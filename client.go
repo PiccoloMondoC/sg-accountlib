@@ -1,5 +1,5 @@
-// ge-accounts/pkg/clientlib/accountslib/client.go
-package accountslib
+// sg-accounts/pkg/clientlib/accountlib/client.go
+package accountlib
 
 import (
 	"net/http"

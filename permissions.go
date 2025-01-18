@@ -1,5 +1,5 @@
-// ge-accounts/pkg/clientlib/accountslib/permissions.go
-package accountslib
+// sg-account/pkg/clientlib/accountlib/permissions.go
+package accountlib
 
 import (
 	"bytes"

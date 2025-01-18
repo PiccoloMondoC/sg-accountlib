@@ -1,5 +1,5 @@
-// ge-accounts/pkg/clientlib/accountslib/password-reset.go
-package accountslib
+// sg-account/pkg/clientlib/accountlib/password-reset.go
+package accountlib
 
 import (
 	"bytes"
