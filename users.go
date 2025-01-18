@@ -1,5 +1,5 @@
-// sg-account/pkg/clientlib/accountlib/users.go
-package accountlib
+// ge-accounts/pkg/clientlib/accountslib/users.go
+package accountslib
 
 import (
 	"bytes"
@@ -15,8 +15,8 @@ import (
 	"regexp"
 	"time"
 
-	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/go-ozzo/ozzo-validation/v4/is"
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/go-ozzo/ozzo-validation/is"
 	"github.com/google/uuid"
 )
 
@@ -670,7 +670,7 @@ func (c *Client) DisableTwoFactorAuthentication(data DisableTwoFactorAuthenticat
 	return nil
 }
 
-// ListAllUsers sends a GET request to the account server to get a list of all users.
+// ListAllUsers sends a GET request to the accounts server to get a list of all users.
 func (c *Client) ListAllUsers() ([]User, error) {
 	// Create a new HTTP request
 	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/api/users", c.BaseURL), nil)

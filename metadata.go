@@ -1,5 +1,5 @@
-// sg-account/pkg/clientlib/accountlib/user_metadata.go
-package accountlib
+// ge-accounts/pkg/clientlib/accountslib/user_metadata.go
+package accountslib
 
 import (
 	"bytes"
