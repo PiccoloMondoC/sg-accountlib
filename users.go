@@ -50,6 +50,11 @@ type CheckPasswordHashData struct {
 	Password string    `json:"password"`
 }
 
+type UserCredentials struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type UpdateUserPayload struct {
 	Email            *string `json:"email,omitempty"`
 	Userhandle       *string `json:"userhandle,omitempty"`
@@ -121,6 +126,15 @@ func (d *UserRegistrationData) Validate() error {
 	return validation.ValidateStruct(d,
 		validation.Field(&d.Email, validation.Required, validation.Length(3, 255), validation.Match(emailRegex).Error("Invalid email")),
 		validation.Field(&d.Password, validation.Required, validation.Length(8, 255)),
+	)
+}
+
+
+// validateCredentials validates the user credentials
+func validateCredentials(credentials UserCredentials) error {
+	return validation.ValidateStruct(&credentials,
+		validation.Field(&credentials.Email, validation.Required, is.Email),
+		validation.Field(&credentials.Password, validation.Required, validation.Length(8, 128)),
 	)
 }
 
@@ -525,6 +539,46 @@ func (c *Client) VerifyEmail(event *VerifyEmailEvent) error {
 
 	return nil
 }
+
+func (c *Client) VerifyCredentials(credentials *UserCredentials) error {
+	// Validate the input credentials
+	if err := validateCredentials(*credentials); err != nil {
+		return fmt.Errorf("validation failed: %w", err)
+	}
+
+	// Marshal the credentials
+	jsonPayload, err := json.Marshal(credentials)
+	if err != nil {
+		return fmt.Errorf("unable to marshal credentials: %w", err)
+	}
+
+	// Create a new HTTP request
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/api/users/verify-credentials", c.BaseURL), bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		return fmt.Errorf("unable to create new request: %w", err)
+	}
+
+	// Set headers
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+c.Token)
+	req.Header.Set("X-API-Key", c.ApiKey)
+
+	// Send the HTTP request
+	res, err := c.HttpClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("unable to send request: %w", err)
+	}
+	defer res.Body.Close()
+
+	// Check the status code
+	if res.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(res.Body)
+		return fmt.Errorf("unexpected status code: got %v, body: %s", res.StatusCode, body)
+	}
+
+	return nil
+}
+
 
 func (c *Client) VerifyPhoneNumber(user *User) error {
 	// Check if phone number exists
